@@ -48,31 +48,27 @@ int main_parse(char *path) {
         }
     }
     free(split);
-    //int
-    const char *int_keys[int_am];
-    int int_values[int_am];
-
-    //double
-    char *double_keys[double_am];
-    double double_values[double_am];
-
-    //float
-    char *float_keys[float_am];
-    float float_values[float_am];
-
-    //strings
-    char *string_keys[strings_am];
-    char **string_values[strings_am];
-
-    //char
-    char *char_keys[char_am];
-    char char_values[char_am];
 
     int int_add = -1;
     int double_add = 0;
     int float_add = 0;
-    int str_add = 0;
     int c_add = 0;
+
+    //int
+    char** int_keys = malloc(sizeof(char*) * int_am);
+    int* int_values = malloc(sizeof(int) * int_am);
+
+    //double
+    char *double_keys[double_am];
+    double* double_values = malloc(sizeof(double) * double_am);
+
+    //float
+    char *float_keys[float_am];
+    float* float_values = malloc(sizeof(float) * float_am);
+
+    //char
+    char *char_keys[char_am];
+    char* char_values = malloc(sizeof(char) * char_am);
 
     char **lines;
     lines = str_split(read_f(path), '\n');
@@ -96,10 +92,12 @@ int main_parse(char *path) {
             }
             if (strcmp(type, "i") == 0) {
                 int_add += 1;
-                int_keys[int_add] = key;
+                int_keys[int_add] = malloc(sizeof(char) * strlen(key));
+                strcpy(int_keys[int_add], key);
                 int_values[int_add] = atoi(parts[3]);
                 printf("registered a new int %s = ", key);
-                printf("%d\n", atoi(parts[3]));
+                printf("%d at index ", atoi(parts[3]));
+                printf("%d\n", int_add);
                 printf("Array Length is %d\n", arr_len_string(int_keys));
                 printf("Array is [");
                 for (int j = 0; j < arr_len_string(int_keys); ++j) {
