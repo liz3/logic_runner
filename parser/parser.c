@@ -50,13 +50,9 @@ int main_parse(char *path) {
     free(split);
 
     int int_add = -1;
-    int int_size = 0;
     int double_add = 0;
-    int double_size = 0;
     int float_add = 0;
-    int float_size = 0;
     int c_add = 0;
-    int c_size = 0;
 
     //int
     char** int_keys = malloc(sizeof(char*) * int_am);
@@ -102,14 +98,12 @@ int main_parse(char *path) {
 		}
 			
 		int_keys[int_add] = malloc(sizeof(char) * strlen(key));
-		int_size += strlen(key);
-
                 strcpy(int_keys[int_add], key);
                 int_values[int_add] = atoi(parts[3]);
                 printf("registered a new int %s = ", key);
                 printf("%d at index ", atoi(parts[3]));
                 printf("%d\n", int_add);
-                printf("Array Length is %d\n", int_add + 1);
+                printf("Array Length is %d\n", arr_len_int(int_keys));
                 printf("Array is [");
                 for (int j = 0; j < int_add + 1; ++j) {
                     printf(" %s ", int_keys[j]);
