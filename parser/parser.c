@@ -96,15 +96,13 @@ int main_parse(char *path) {
             }
             if (strcmp(type, "i") == 0) {
                 int_add += 1;
+		
 		if (int_add == 0) {
                 	int_keys = malloc(sizeof(char) * strlen(key));
-			int_keys[int_add] = malloc(sizeof(char) * strlen(key));
-			int_size += strlen(key);
-		} else {
-			//int_keys = realloc(int_keys, sizeof(char) * int_size + sizeof(char) * strlen(key));
-			int_keys[int_add] = malloc(sizeof(char) * strlen(key));
-			int_size += strlen(key);
 		}
+			
+		int_keys[int_add] = malloc(sizeof(char) * strlen(key));
+		int_size += strlen(key);
 
                 strcpy(int_keys[int_add], key);
                 int_values[int_add] = atoi(parts[3]);
