@@ -50,9 +50,13 @@ int main_parse(char *path) {
     free(split);
 
     int int_add = -1;
+    int int_size = 0;
     int double_add = 0;
+    int double_size = 0;
     int float_add = 0;
+    int float_size = 0;
     int c_add = 0;
+    int c_size = 0;
 
     //int
     char** int_keys = malloc(sizeof(char*) * int_am);
@@ -77,9 +81,9 @@ int main_parse(char *path) {
         char **parts;
         parts = str_split(*(lines + walk_i), ' ');
 
-
         if (strcmp(parts[0], "return") == 0) return 0;
-        int cmd_type = read_cmd(parts[0]);
+        
+	int cmd_type = read_cmd(parts[0]);
         if (cmd_type == 1) {
             char *type = parts[1];
             char *key = parts[2];
@@ -92,15 +96,24 @@ int main_parse(char *path) {
             }
             if (strcmp(type, "i") == 0) {
                 int_add += 1;
-                int_keys[int_add] = malloc(sizeof(char) * strlen(key));
+		if (int_add == 0) {
+                	int_keys = malloc(sizeof(char) * strlen(key));
+			int_keys[int_add] = malloc(sizeof(char) * strlen(key));
+			int_size += strlen(key);
+		} else {
+			//int_keys = realloc(int_keys, sizeof(char) * int_size + sizeof(char) * strlen(key));
+			int_keys[int_add] = malloc(sizeof(char) * strlen(key));
+			int_size += strlen(key);
+		}
+
                 strcpy(int_keys[int_add], key);
                 int_values[int_add] = atoi(parts[3]);
                 printf("registered a new int %s = ", key);
                 printf("%d at index ", atoi(parts[3]));
                 printf("%d\n", int_add);
-                printf("Array Length is %d\n", arr_len_string(int_keys));
+                printf("Array Length is %d\n", int_add + 1);
                 printf("Array is [");
-                for (int j = 0; j < arr_len_string(int_keys); ++j) {
+                for (int j = 0; j < int_add + 1; ++j) {
                     printf(" %s ", int_keys[j]);
                 }
                 printf("]\n");
