@@ -1,0 +1,7 @@
+def i test1 25
+def i test2 255
+def i test3 2554
+def d y 25.5
+def f z 25.345345
+def c w U
+assert test1 test2 453534
