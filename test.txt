@@ -1,1 +1,16 @@
-def
+def c xxx H
+def c one H
+def c two e
+def c three l
+def c four l
+def c five o
+goto 15
+print $ one
+print $ two
+print $ three
+print $ four
+print $ five
+endl
+goto 16
+goto 8
+print ThisIsFun

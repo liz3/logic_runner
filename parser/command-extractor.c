@@ -21,6 +21,8 @@ int read_cmd(char *line) {
     }
     if (strcmp(line, "sleep") == 0) {
         return 5;
+    } if (strcmp(line, "endl") == 0) {
+        return 6;
     }
 
     return -1;

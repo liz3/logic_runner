@@ -218,27 +218,27 @@ int main_parse(char *path) {
             }
         } else if (cmd_type == 3) {
             if (strcmp(parts[1], "$") != 0) {
-                printf(">> %s\n", parts[1]);
+                printf("%s", parts[1]);
             } else {
                 char *first_var = parts[2];
                 if (contains_str(int_keys, int_add + 1, first_var) == 1) {
 
                     int first_value = int_values[get_index(int_keys, int_add + 1, first_var)];
-                    printf(">> %d\n", first_value);
+                    printf("%d", first_value);
                 } else if (contains_str(double_keys, double_add + 1, first_var) == 1) {
                     double first_value = double_values[get_index(double_keys, double_add + 1, first_var)];
-                    printf(">> %lf\n", first_value);
+                    printf("%lf", first_value);
 
 
                 } else if (contains_str(float_keys, float_add + 1, first_var) == 1) {
 
                     float first_value = float_values[get_index(float_keys, float_add + 1, first_var)];
-                    printf(">> %f\n", first_value);
+                    printf("%f", first_value);
 
 
                 } else if (contains_str(char_keys, c_add + 1, first_var) == 1) {
                     char *first_value = char_values[get_index(char_keys, c_add + 1, first_var)];
-                    printf(">> %s\n", first_value);
+                    printf("%s", first_value);
 
                 }
             }
@@ -255,6 +255,8 @@ int main_parse(char *path) {
                 }
             }
 
+        }else if (cmd_type == 6) {
+           printf("\n");
         }
 
     }
