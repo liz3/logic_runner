@@ -1,9 +1,12 @@
-print ComparingChar
-print DefiningChars
-def c one A
-def c two B
-def c three C
-assert two three 9
-print TheyAreTheSame
-return
-print They_are_different
+print One
+      print Two
+      goto 6
+      print Three
+      print Five
+      print Six
+      goto 10
+      print returning
+      return
+      print Seven
+      print jump_to_8
+      goto 8

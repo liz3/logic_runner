@@ -220,6 +220,8 @@ int main_parse(char *path) {
             }
         } else if (cmd_type == 3) {
             printf(">> %s\n", parts[1]);
+        }else if (cmd_type == 4) {
+           walk_i = atoi(parts[1])  -2;
         }
 
     }
