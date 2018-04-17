@@ -7,6 +7,7 @@
 
 #include "../utils.h"
 #include "command-extractor.h"
+#include <unistd.h>
 
 int contains_str(char* keys[], int length, char* search);
 int get_index(char* keys[],int length, char* search);

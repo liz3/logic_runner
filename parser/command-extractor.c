@@ -19,6 +19,9 @@ int read_cmd(char *line) {
     if (strcmp(line, "goto") == 0) {
         return 4;
     }
+    if (strcmp(line, "sleep") == 0) {
+        return 5;
+    }
 
     return -1;
 }

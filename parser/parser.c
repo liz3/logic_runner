@@ -101,7 +101,8 @@ int main_parse(char *path) {
                 int_keys[int_add] = malloc(sizeof(char) * strlen(key));
                 strcpy(int_keys[int_add], key);
                 int_values[int_add] = atoi(parts[3]);
-                printf("registered a new int %s = ", key);
+                /*
+                 * printf("registered a new int %s = ", key);
                 printf("%d at index ", atoi(parts[3]));
                 printf("%d\n", int_add);
                 printf("Array Length is %d\n", arr_len_int(int_keys));
@@ -110,23 +111,24 @@ int main_parse(char *path) {
                     printf(" %s -> %d ", int_keys[j], int_values[j]);
                 }
                 printf("]\n");
+                 */
 
                 continue;
             }
 
             if (strcmp(type, "d") == 0) {
                 double_add++;
-                if(double_add == 0) {
+                if (double_add == 0) {
                     double_keys = malloc(sizeof(char) * strlen(key));
                 }
-                double_keys[double_add] =  malloc(sizeof(char) * strlen(key));
-                strcpy( double_keys[double_add], key);
+                double_keys[double_add] = malloc(sizeof(char) * strlen(key));
+                strcpy(double_keys[double_add], key);
                 double_values[double_add] = strtod(parts[3], NULL);
                 continue;
             }
             if (strcmp(type, "f") == 0) {
                 float_add++;
-                if(float_add == 0) {
+                if (float_add == 0) {
                     float_keys = malloc(sizeof(char) * strlen(key));
                 }
                 float_keys[float_add] = malloc(sizeof(char) * strlen(key));
@@ -140,7 +142,7 @@ int main_parse(char *path) {
             }
             if (strcmp(type, "c") == 0) {
                 c_add++;
-                if(c_add == 0) {
+                if (c_add == 0) {
                     char_keys = malloc(sizeof(char) * strlen(key));
                 }
                 char_keys[c_add] = malloc(sizeof(char) * strlen(key));
@@ -159,7 +161,6 @@ int main_parse(char *path) {
                     continue;
                 }
                 int second_value = int_values[get_index(int_keys, int_add + 1, second_var)];
-
 
 
                 if (first_value == second_value) {
@@ -219,9 +220,44 @@ int main_parse(char *path) {
                 printf("ERROR Var %s not registered\n", first_var);
             }
         } else if (cmd_type == 3) {
-            printf(">> %s\n", parts[1]);
-        }else if (cmd_type == 4) {
-           walk_i = atoi(parts[1])  -2;
+            if (strcmp(parts[1], "$") != 0) {
+                printf(">> %s\n", parts[1]);
+            } else {
+                char *first_var = parts[2];
+                if (contains_str(int_keys, int_add + 1, first_var) == 1) {
+
+                    int first_value = int_values[get_index(int_keys, int_add + 1, first_var)];
+                    printf(">> %d\n", first_value);
+                } else if (contains_str(double_keys, double_add + 1, first_var) == 1) {
+                    double first_value = double_values[get_index(double_keys, double_add + 1, first_var)];
+                    printf(">> %lf\n", first_value);
+
+
+                } else if (contains_str(float_keys, float_add + 1, first_var) == 1) {
+
+                    float first_value = float_values[get_index(float_keys, float_add + 1, first_var)];
+                    printf(">> %f\n", first_value);
+
+
+                } else if (contains_str(char_keys, c_add + 1, first_var) == 1) {
+                    char *first_value = char_values[get_index(char_keys, c_add + 1, first_var)];
+                    printf(">> %s\n", first_value);
+
+                }
+            }
+        } else if (cmd_type == 4) {
+            walk_i = atoi(parts[1]) - 2;
+        } else if (cmd_type == 5) {
+            if (strcmp(parts[1], "$") != 0) {
+                sleep(atoi(parts[1]));
+            } else {
+                char *first_var = parts[2];
+                if (contains_str(int_keys, int_add + 1, first_var) == 1) {
+                    int first_value = int_values[get_index(int_keys, int_add + 1, first_var)];
+                    sleep(first_value);
+                }
+            }
+
         }
 
     }
