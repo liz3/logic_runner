@@ -30,9 +30,7 @@ int main_parse(char *path) {
     int float_am = 0;
     int strings_am = 0;
     int char_am = 0;
-
     char *content = read_f(path);
-
     char **split;
     split = str_split(content, '\n');
     int i;
@@ -49,7 +47,6 @@ int main_parse(char *path) {
         }
     }
     free(split);
-
     int int_add = -1;
     int double_add = -1;
     int float_add = -1;

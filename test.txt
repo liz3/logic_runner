@@ -1,5 +1,1 @@
-print sleeping_for_5_seconds
-def i test 5
-sleep $ test
-print Slept
-print $ test
+def

@@ -9,11 +9,6 @@
 #include <memory.h>
 #include <assert.h>
 
-int arr_len_int(int arr[]);
-int arr_len_double(double arr[]);
-int arr_len_char(char arr[]);
-int arr_len_string(char* arr[]);
-int arr_len_float(float arr[]);
 char* read_f(char *filename);
 
 char** str_split(char* a_str, const char a_delim);

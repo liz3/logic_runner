@@ -4,25 +4,6 @@
 
 #include "utils.h"
 
-int arr_len_int(int arr[]) {
-    return sizeof(arr)/sizeof(arr[0]);
-}
-int arr_len_double(double arr[]) {
-    return sizeof(arr)/sizeof(arr[0]);
-
-}
-int arr_len_char(char arr[]) {
-    return sizeof(arr)/sizeof(arr[0]);
-
-}
-int arr_len_string(char* arr[]) {
-    return sizeof(arr)/sizeof(arr[0]);
-
-}
-int arr_len_float(float arr[]) {
-    return sizeof(arr)/sizeof(arr[0]);
-
-}
 
 char *read_f(char *filename) {
     char *buffer = NULL;
