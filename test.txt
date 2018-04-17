@@ -1,6 +1,9 @@
-def i t 25
-def i k 255
-def i l 254
-def d y 25.5
-def c w U
-assert t k return
+print ComparingChar
+print DefiningChars
+def c one A
+def c two B
+def c three C
+assert two three 9
+print TheyAreTheSame
+return
+print They_are_different

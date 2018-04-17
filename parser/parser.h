@@ -9,7 +9,7 @@
 #include "command-extractor.h"
 
 int contains_str(char* keys[], int length, char* search);
-int get_index(char* keys[], char* search);
+int get_index(char* keys[],int length, char* search);
 int main_parse(char* content);
 
 #endif //LOGIC_RUNNER_PARSER_H

@@ -7,15 +7,16 @@
 int contains_str(char *keys[], int length, char *search) {
     if (*keys == NULL) return 0;
     for (int i = 0; i < length; ++i) {
-        if (strcmp(keys[i], search) == 0) return 1;
+        if (strcmp(keys[i], search) == 0) {
+            return 1;
+        }
     }
-
     return 0;
 }
 
-int get_index(char *keys[], char *search) {
+int get_index(char *keys[], int length, char *search) {
     if (*keys == NULL) return -1;
-    for (int i = 0; i < arr_len_string(keys); ++i) {
+    for (int i = 0; i < length; ++i) {
         if (strcmp(keys[i], search) == 0) return i;
     }
 
@@ -68,16 +69,16 @@ int main_parse(char *path) {
 
     //char
     char **char_keys = malloc(sizeof(char *) * char_am);
-    char *char_values = malloc(sizeof(char) * char_am);
+    char **char_values = malloc(sizeof(char) * char_am);
 
     char **lines;
     lines = str_split(read_f(path), '\n');
     int walk_i;
     for (walk_i = 0; *(lines + walk_i); walk_i++) {
+        if (strcmp(*(lines + walk_i), "return") == 0) return 0;
         char **parts;
         parts = str_split(*(lines + walk_i), ' ');
 
-        if (strcmp(parts[0], "return") == 0) return 0;
 
         int cmd_type = read_cmd(parts[0]);
         if (cmd_type == 1) {
@@ -115,20 +116,22 @@ int main_parse(char *path) {
 
             if (strcmp(type, "d") == 0) {
                 double_add++;
-                double_keys[double_add] = key;
+                if(double_add == 0) {
+                    double_keys = malloc(sizeof(char) * strlen(key));
+                }
+                double_keys[double_add] =  malloc(sizeof(char) * strlen(key));
+                strcpy( double_keys[double_add], key);
                 double_values[double_add] = strtod(parts[3], NULL);
-                printf("registered a new double %s = ", key);
-                printf("%lf", strtod(parts[3], NULL));
-                printf("\n");
                 continue;
             }
             if (strcmp(type, "f") == 0) {
                 float_add++;
-                float_keys[float_add] = key;
+                if(float_add == 0) {
+                    float_keys = malloc(sizeof(char) * strlen(key));
+                }
+                float_keys[float_add] = malloc(sizeof(char) * strlen(key));
+                strcpy(float_keys[float_add], key);
                 float_values[float_add] = (float) atof(parts[3]);
-                printf("registered a new float %s = ", key);
-                printf("%lf", atof(parts[3]));
-                printf("\n");
                 continue;
             }
             if (strcmp(type, "s") == 0) {
@@ -137,11 +140,12 @@ int main_parse(char *path) {
             }
             if (strcmp(type, "c") == 0) {
                 c_add++;
-                char_keys[char_am] = key;
-                char_values[char_am] = (char) parts[3];
-                printf("registered a new char %s = ", key);
-                printf("%c", parts[3][0]);
-                printf("\n");
+                if(c_add == 0) {
+                    char_keys = malloc(sizeof(char) * strlen(key));
+                }
+                char_keys[c_add] = malloc(sizeof(char) * strlen(key));
+                strcpy(char_keys[c_add], key);
+                char_values[c_add] = parts[3];
                 continue;
             }
         } else if (cmd_type == 2) {
@@ -150,32 +154,74 @@ int main_parse(char *path) {
             char *false_op = parts[3];
             if (contains_str(int_keys, int_add + 1, first_var) == 1) {
 
-                int first_value = int_values[get_index(int_keys, first_var)];
+                int first_value = int_values[get_index(int_keys, int_add + 1, first_var)];
                 if (contains_str(int_keys, int_add + 1, second_var) != 1) {
-                    printf("not containing!\n");
                     continue;
                 }
-                int second_value = int_values[get_index(int_keys, second_var)];
+                int second_value = int_values[get_index(int_keys, int_add + 1, second_var)];
 
-                printf("They are %d", first_value);
-                printf(" and %d\n", second_value);
+
+
+                if (first_value == second_value) {
+                    continue;
+                }
+                if (strcmp(false_op, "return") == 0)return 0;
+
+                int goto_node = atoi(false_op);
+
+                walk_i = goto_node - 2;
             } else if (contains_str(double_keys, double_add + 1, first_var) == 1) {
+                double first_value = double_values[get_index(double_keys, double_add + 1, first_var)];
+                if (contains_str(double_keys, double_add + 1, second_var) != 1) {
+                    continue;
+                }
+                double second_value = double_values[get_index(double_keys, double_add + 1, second_var)];
+                if (first_value == second_value) {
+                    continue;
+                }
+                if (strcmp(false_op, "return") == 0)return 0;
 
+                int goto_node = atoi(false_op);
+
+                walk_i = goto_node - 2;
 
             } else if (contains_str(float_keys, float_add + 1, first_var) == 1) {
 
-            } else if (contains_str(char_keys,  c_add + 1, first_var) == 1) {
+                float first_value = float_values[get_index(float_keys, float_add + 1, first_var)];
+                if (contains_str(float_keys, float_add + 1, second_var) != 1) {
+                    continue;
+                }
+                float second_value = float_values[get_index(float_keys, float_add + 1, second_var)];
+                if (first_value == second_value) {
+                    continue;
+                }
+                if (strcmp(false_op, "return") == 0)return 0;
 
+                int goto_node = atoi(false_op);
+
+                walk_i = goto_node - 2;
+
+            } else if (contains_str(char_keys, c_add + 1, first_var) == 1) {
+                char *first_value = char_values[get_index(char_keys, c_add + 1, first_var)];
+                if (contains_str(char_keys, c_add + 1, second_var) != 1) {
+                    continue;
+                }
+                char *second_value = char_values[get_index(char_keys, c_add + 1, second_var)];
+                if (strcmp(first_value, second_value) == 0) {
+                    continue;
+                }
+                if (strcmp(false_op, "return") == 0)return 0;
+
+                int goto_node = atoi(false_op);
+
+                walk_i = goto_node - 2;
             } else {
                 printf("ERROR Var %s not registered\n", first_var);
             }
+        } else if (cmd_type == 3) {
+            printf(">> %s\n", parts[1]);
         }
 
     }
-
-    int int_test = contains_str(int_keys, int_add + 1, "y");
-
-    printf("\nContains result = %d\n", int_test);
-
     return 0;
 }

@@ -13,6 +13,9 @@ int read_cmd(char* line) {
     if(strcmp(line, "assert") == 0) {
         return 2;
     }
+    if(strcmp(line, "print") == 0) {
+        return 3;
+    }
 
     return -1;
 }
