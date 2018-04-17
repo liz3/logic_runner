@@ -174,7 +174,7 @@ int main_parse(char *path) {
 
     int int_test = contains_str(int_keys, int_add + 1, "y");
 
-    printf("\nContains result = %d", int_test);
+    printf("\nContains result = %d\n", int_test);
 
     return 0;
 }
