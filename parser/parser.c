@@ -106,9 +106,10 @@ int main_parse(char *path) {
                 printf("Array Length is %d\n", arr_len_int(int_keys));
                 printf("Array is [");
                 for (int j = 0; j < int_add + 1; ++j) {
-                    printf(" %s ", int_keys[j]);
+                    printf(" %s -> %d ", int_keys[j], int_values[j]);
                 }
                 printf("]\n");
+
                 continue;
             }
 
