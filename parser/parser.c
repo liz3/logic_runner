@@ -22,17 +22,18 @@ int get_index(char *keys[], int length, char *search) {
 
     return -1;
 }
-
 int main_parse(char *path) {
 
+    char *content = read_f(path);
     int int_am = 0;
     int double_am = 0;
     int float_am = 0;
     int strings_am = 0;
     int char_am = 0;
-    char *content = read_f(path);
+    char *contentcpy = malloc(sizeof(char) * strlen(content));
+    strcpy(contentcpy, content);
     char **split;
-    split = str_split(content, '\n');
+    split = str_split(contentcpy, '\n');
     int i;
     for (i = 0; *(split + i); i++) {
         char **parts;
@@ -47,6 +48,7 @@ int main_parse(char *path) {
         }
     }
     free(split);
+    free(contentcpy);
     int int_add = -1;
     int double_add = -1;
     int float_add = -1;
@@ -69,10 +71,11 @@ int main_parse(char *path) {
     char **char_values = malloc(sizeof(char) * char_am);
 
     char **lines;
-    lines = str_split(read_f(path), '\n');
+    lines = str_split(content, '\n');
+    free(content);
     int walk_i;
     for (walk_i = 0; *(lines + walk_i); walk_i++) {
-        if (strcmp(*(lines + walk_i), "return") == 0) return 0;
+        if (strcmp(*(lines + walk_i), "ret") == 0) return 0;
         char **parts;
         parts = str_split(*(lines + walk_i), ' ');
 
@@ -163,7 +166,7 @@ int main_parse(char *path) {
                 if (first_value == second_value) {
                     continue;
                 }
-                if (strcmp(false_op, "return") == 0)return 0;
+                if (strcmp(false_op, "ret") == 0)return 0;
 
                 int goto_node = atoi(false_op);
 
@@ -177,7 +180,7 @@ int main_parse(char *path) {
                 if (first_value == second_value) {
                     continue;
                 }
-                if (strcmp(false_op, "return") == 0)return 0;
+                if (strcmp(false_op, "ret") == 0)return 0;
 
                 int goto_node = atoi(false_op);
 
@@ -193,7 +196,7 @@ int main_parse(char *path) {
                 if (first_value == second_value) {
                     continue;
                 }
-                if (strcmp(false_op, "return") == 0)return 0;
+                if (strcmp(false_op, "ret") == 0)return 0;
 
                 int goto_node = atoi(false_op);
 
@@ -208,7 +211,7 @@ int main_parse(char *path) {
                 if (strcmp(first_value, second_value) == 0) {
                     continue;
                 }
-                if (strcmp(false_op, "return") == 0)return 0;
+                if (strcmp(false_op, "ret") == 0)return 0;
 
                 int goto_node = atoi(false_op);
 
@@ -246,19 +249,103 @@ int main_parse(char *path) {
             walk_i = atoi(parts[1]) - 2;
         } else if (cmd_type == 5) {
             if (strcmp(parts[1], "$") != 0) {
-                sleep(atoi(parts[1]));
+                sleep((unsigned int) atoi(parts[1]));
+                continue;
             } else {
                 char *first_var = parts[2];
                 if (contains_str(int_keys, int_add + 1, first_var) == 1) {
                     int first_value = int_values[get_index(int_keys, int_add + 1, first_var)];
                     sleep(first_value);
+                    continue;
                 }
             }
 
-        }else if (cmd_type == 6) {
-           printf("\n");
-        }
+        } else if (cmd_type == 6) {
+            printf("\n");
+        } else if (cmd_type == 7) {
+            int operation = read_op(parts[1]);
+            char *output_var = parts[2];
+            char *first_var = parts[3];
+            char *second_var = parts[4];
+            if (operation == 1) { // +
+                if (contains_str(int_keys, int_add + 1, first_var) == 1) {
+                    int first_val = int_values[get_index(int_keys, int_add + 1, first_var)];
+                    int sec_val = int_values[get_index(int_keys, int_add + 1, second_var)];
+                    int_values[get_index(int_keys, int_add + 1, output_var)] = first_val + sec_val;
 
+
+                } else if (contains_str(double_keys, double_add + 1, first_var) == 1) {
+                    double first_val = double_values[get_index(double_keys, double_add + 1, first_var)];
+                    double sec_val = double_values[get_index(double_keys, double_add + 1, second_var)];
+                    double_values[get_index(double_keys, double_add + 1, output_var)] = first_val + sec_val;
+
+                } else if (contains_str(float_keys, float_add + 1, first_var) == 1) {
+                    float first_val = float_values[get_index(float_keys, float_add + 1, first_var)];
+                    float sec_val = float_values[get_index(float_keys, float_add + 1, second_var)];
+                    float_values[get_index(float_keys, float_add + 1, output_var)] = first_val + sec_val;
+
+                }
+            }
+            if (operation == 2) { // -
+                if (contains_str(int_keys, int_add + 1, first_var) == 1) {
+                    int first_val = int_values[get_index(int_keys, int_add + 1, first_var)];
+                    int sec_val = int_values[get_index(int_keys, int_add + 1, second_var)];
+                    int_values[get_index(int_keys, int_add + 1, output_var)] = first_val - sec_val;
+
+
+                } else if (contains_str(double_keys, double_add + 1, first_var) == 1) {
+                    double first_val = double_values[get_index(double_keys, double_add + 1, first_var)];
+                    double sec_val = double_values[get_index(double_keys, double_add + 1, second_var)];
+                    double_values[get_index(double_keys, double_add + 1, output_var)] = first_val - sec_val;
+
+                } else if (contains_str(float_keys, float_add + 1, first_var) == 1) {
+                    float first_val = float_values[get_index(float_keys, float_add + 1, first_var)];
+                    float sec_val = float_values[get_index(float_keys, float_add + 1, second_var)];
+                    float_values[get_index(float_keys, float_add + 1, output_var)] = first_val - sec_val;
+
+                }
+            }
+            if (operation == 3) { // /
+                if (contains_str(int_keys, int_add + 1, first_var) == 1) {
+                    int first_val = int_values[get_index(int_keys, int_add + 1, first_var)];
+                    int sec_val = int_values[get_index(int_keys, int_add + 1, second_var)];
+                    int_values[get_index(int_keys, int_add + 1, output_var)] = first_val / sec_val;
+
+
+                } else if (contains_str(double_keys, double_add + 1, first_var) == 1) {
+                    double first_val = double_values[get_index(double_keys, double_add + 1, first_var)];
+                    double sec_val = double_values[get_index(double_keys, double_add + 1, second_var)];
+                    double_values[get_index(double_keys, double_add + 1, output_var)] = first_val / sec_val;
+
+                } else if (contains_str(float_keys, float_add + 1, first_var) == 1) {
+                    float first_val = float_values[get_index(float_keys, float_add + 1, first_var)];
+                    float sec_val = float_values[get_index(float_keys, float_add + 1, second_var)];
+                    float_values[get_index(float_keys, float_add + 1, output_var)] = first_val / sec_val;
+
+                }
+            } if (operation == 4) { // *
+                if (contains_str(int_keys, int_add + 1, first_var) == 1) {
+                    int first_val = int_values[get_index(int_keys, int_add + 1, first_var)];
+                    int sec_val = int_values[get_index(int_keys, int_add + 1, second_var)];
+                    int_values[get_index(int_keys, int_add + 1, output_var)] = first_val * sec_val;
+
+
+                } else if (contains_str(double_keys, double_add + 1, first_var) == 1) {
+                    double first_val = double_values[get_index(double_keys, double_add + 1, first_var)];
+                    double sec_val = double_values[get_index(double_keys, double_add + 1, second_var)];
+                    double_values[get_index(double_keys, double_add + 1, output_var)] = first_val * sec_val;
+
+                } else if (contains_str(float_keys, float_add + 1, first_var) == 1) {
+                    float first_val = float_values[get_index(float_keys, float_add + 1, first_var)];
+                    float sec_val = float_values[get_index(float_keys, float_add + 1, second_var)];
+                    float_values[get_index(float_keys, float_add + 1, output_var)] = first_val * sec_val;
+
+                }
+            }
+
+
+        }
+        free(parts);
     }
     return 0;
 }
