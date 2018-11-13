@@ -1,36 +1,12 @@
-pr Declaring....
-endl
-df i int_holder 0
-df i int_result 0
-df i int_one 25
-df i int_two 24
-df d double_holder 0.0
-df d double_result 0.0
-df d double_one 25.1
-df d double_two 25.2
-df f float_holder 0.000000
-df f float_result 0.000000
-df f f_one 20.123
-df f f_two 20.123
-pr Calculating...
-endl
-op + int_result int_one int_two
-op + double_result double_one double_two
-op + float_result f_one f_two
-pr Printing....
-endl
-pr $ int_result
-endl
-pr $ double_result
-endl
-pr $ float_result
-endl
-pr minus-result:
-op - int_result int_result int_one
-pr $ int_result
-endl
-ast int_one int_two 35
-pr TheyAreSame
-endl
-ast int_two int_result ret
-pr IntResultIsIntTwo
+df i current 1
+df i target 26
+df i adder 1
+pr Current $current \endl
+op + current current adder
+ast current target 4
+pr Done with first loop ======= \endl
+df i min 1
+op - current current adder
+pr Current $current \endl
+ast current min 9
+pr Done done

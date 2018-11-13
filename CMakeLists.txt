@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.10)
-project(logic_runner C)
+cmake_minimum_required(VERSION 3.12)
+project(logic_run_2 C)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 99)
 
-add_executable(logic_runner main.c parser/parser.c parser/parser.h utils.c utils.h parser/command-extractor.c parser/command-extractor.h)
+add_executable(logic_run_2 main.c core/parser.c core/parser.h utils/utils.c utils/utils.h core/validator.c core/validator.h)
