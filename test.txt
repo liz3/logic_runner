@@ -1,10 +1,7 @@
-df i test_1 25
-df i test_2 300
-pu test_1 -25
-pr $test_1
+df d double_one 0.50
+df d double_two 0.50
+op + double_one double_one double_two
+pr $double_one
 pr \n
-pu test_1 $test_2
-pr $test_1
-pr \n
-pu test_2 220
-pr $test_2
+pu double_two 1.25
+pr $double_two
