@@ -157,16 +157,12 @@ void parse(char *target_file) {
 
             struct Entry op_1;
             struct Entry op_2;
-            int false_operator = atoi(false_target);
             for (int j = 0; j < curr_insert; ++j) {
                 struct Entry entry = entries[j];
                 if (strcmp(entry.name, first_op) == 0)op_1 = entry;
                 if (strcmp(entry.name, second_op) == 0)op_2 = entry;
             }
             if (validate_assert(op_1, op_2, parser_line) != 0) return;
-            if (false_operator > count) {
-                printf("ERROR: Cant goto line %d on assert on line %d", false_operator, parser_line);
-            }
 
             int cont = 0;
             char type = op_1.type;
@@ -185,6 +181,14 @@ void parse(char *target_file) {
             if (cont == 1) {
                 continue;
             } else {
+                if(strcmp(false_target, "ret") == 0)
+                    return;
+
+                int false_operator = atoi(false_target);
+                if(false_operator > count) {
+                    printf("ERROR: Cant goto line %d on assert on line %d", false_operator, parser_line);
+                    return;
+                }
                 i = false_operator - 2;
                 continue;
             }
