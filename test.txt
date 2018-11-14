@@ -1,12 +1,10 @@
-df i current 1
-df i target 26
-df i adder 1
-pr Current $current \endl
-op + current current adder
-ast current target 4
-pr Done with first loop ======= \endl
-df i min 1
-op - current current adder
-pr Current $current \endl
-ast current min 9
-pr Done done
+df i test_1 25
+df i test_2 300
+pu test_1 -25
+pr $test_1
+pr \n
+pu test_1 $test_2
+pr $test_1
+pr \n
+pu test_2 220
+pr $test_2

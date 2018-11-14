@@ -9,8 +9,8 @@ int validate_define(char type, char* name, char* value) {
 }
 int validate_action(char* input) {
 
-    char* actions[6] =  {"pr", "df", "ast", "gt", "ret", "op"};
-    for (int i = 0; i < 6; ++i) {
+    char* actions[7] =  {"pr", "df", "ast", "gt", "ret", "op", "pu"};
+    for (int i = 0; i < 7; ++i) {
         if(strcmp(actions[i], input) == 0) return 0;
     }
     return 1;

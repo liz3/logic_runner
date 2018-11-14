@@ -139,7 +139,7 @@ void parse(char *target_file) {
                         return;
                     }
                 } else {
-                    if (strcmp(str, "\\endl") == 0) {
+                    if (strcmp(str, "\\n") == 0) {
                         printf("\n");
                     } else {
                         printf("%s", str);
@@ -147,8 +147,56 @@ void parse(char *target_file) {
                 }
             }
         }
+        //return = stop the Process
         if (strcmp(action, "ret") == 0) {
             return;
+        }
+
+        if (strcmp(action, "pu") == 0) {
+            char* target_name = parts[1];
+            int target_index;
+            char* value = parts[2];
+            struct Entry target;
+
+            for (int j = 0; j < curr_insert; ++j) {
+                struct Entry entry = entries[j];
+                if(strcmp(entry.name, target_name) == 0) {
+                    target = entry;
+                    target_index = j;
+                }
+            }
+            if(target.name == NULL) {
+                printf("\n\nERROR: Cant find target variable of push at line %d", parser_line);
+                return;
+            }
+            char type = target.type;
+
+            if(value[0] == '$') {
+                char* push_entry_name = substr(value, 1);
+                struct Entry push_entry;
+                for (int j = 0; j < curr_insert; ++j) {
+                    struct Entry entry = entries[j];
+                    if(strcmp(entry.name, push_entry_name) == 0) push_entry = entry;
+                }
+                if(push_entry.name == NULL) {
+                    printf("\n\nERROR: Cant find source variable of push at line %d", parser_line);
+                    return;
+                }
+                if(target.type != push_entry.type) {
+                    printf("\n\nERROR: different variable type on push at line %d", parser_line);
+                    return;
+                }
+                if (type == 'i') target.int_val = push_entry.int_val;
+                if (type == 'd') target.double_val = push_entry.double_val;
+                if (type == 'f') target.float_val = push_entry.float_val;
+                if (type == 'c') target.char_val = push_entry.char_val;
+            } else {
+                if (type == 'i') target.int_val = atoi(value);
+                if (type == 'd') target.double_val = strtod(value, NULL);
+                if (type == 'f') target.float_val = (float) atof(value);
+                if (type == 'c') target.char_val = value[0];
+            }
+            entries[target_index] = target;
         }
         if (strcmp(action, "ast") == 0) {
             char *first_op = parts[1];
